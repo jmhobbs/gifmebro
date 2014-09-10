@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Gif Me Bro - Web Cam GIF Maker</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" media="screen" />
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css" media="screen" />
+    <style>
+      .progress .progress-bar.noanimate {
+        -webkit-transition: none;
+        -moz-transition: none;
+        -ms-transition: none;
+        -o-transition: none;
+        transition: none;
+      }
+    </style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row" style="margin-top: 50px;">
+        <h1>GIF Me Bro</h1>
+
+        <video id="webcam" width="320" height="240" autoplay></video>
+        <canvas width="320" id="canvas" height="240" style="display: none;"></canvas>
+        <hr/>
+        <button id="create" class="btn btn-info">Create GIF</button>
+
+        <h2 id="rendering" style="display: none;">Rendering...</h2>
+        <img src="#" style="display: none;" id="render" />
+        
+        <div class="progress" id="progress" style="display: none;">
+          <div class="progress-bar noanimate" style="width: 0%;">
+            Get Ready!
+          </div>
+        </div>
+
+			</div>
+		</div>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>		
+    <script src="gifmebro.min.js"></script>
+	</body>
+</html>
