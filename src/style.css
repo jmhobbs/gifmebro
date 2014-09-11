@@ -1,0 +1,33 @@
+.jumbotron {
+  margin-top: 20px;
+  text-align: center;
+  background: #2ECC71;
+}
+
+#webcam {
+  width: 320px;
+  height: 240px;
+}
+
+.btn { 
+  width: 320px;
+  font-size: 3em;
+}
+
+#credits p {
+  color: #AAA;
+  text-align: center;
+  font-size: 0.7em;
+}
+
+#credits a, #credits a:active, #credits a:visited {
+  color: #888;
+}
+
+#credits a:hover {
+  color: #666;
+}
+
+.row {
+  margin-bottom: 30px
+}

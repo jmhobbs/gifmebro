@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             'src/gifmebro.js'
           ]
         }
-      }
+      } 
     },
     copy: {
       template: {
@@ -24,10 +24,21 @@ module.exports = function (grunt) {
         dest: 'dist/'
       }
     },
+    cssmin: {
+      combine: {
+        files: {
+          'dist/style.min.css': ['src/style.css']
+        }
+      }
+    },
     watch: {
       scripts: {
         files: ['src/gifmebro.js'],
         tasks: ['uglify'],
+      },
+      css: {
+        files: ['src/style.css'],
+        tasks: ['cssmin'],
       },
       html: {
         files: ['src/index.html'],
@@ -38,7 +49,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['uglify', 'copy']);
+  grunt.registerTask('default', ['uglify', 'cssmin', 'copy']);
 };

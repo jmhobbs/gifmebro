@@ -1,44 +1,99 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Gif Me Bro - Web Cam GIF Maker</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" media="screen" />
+		
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css" media="screen" />
 		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css" media="screen" />
-    <style>
-      .progress .progress-bar.noanimate {
-        -webkit-transition: none;
-        -moz-transition: none;
-        -ms-transition: none;
-        -o-transition: none;
-        transition: none;
-      }
-    </style>
+		<link rel="stylesheet" href="style.min.css" media="screen" />
+
 	</head>
 	<body>
 		<div class="container">
-			<div class="row" style="margin-top: 50px;">
-        <h1>GIF Me Bro</h1>
 
-        <video id="webcam" width="320" height="240" autoplay></video>
-        <canvas width="320" id="canvas" height="240" style="display: none;"></canvas>
-        <hr/>
-        <button id="create" class="btn btn-info">Create GIF</button>
-
-        <h2 id="rendering" style="display: none;">Rendering...</h2>
-        <img src="#" style="display: none;" id="render" />
-        
-        <div class="progress" id="progress" style="display: none;">
-          <div class="progress-bar noanimate" style="width: 0%;">
-            Get Ready!
-          </div>
+			<div class="row">
+        <div class="jumbotron">
+          <h1>GIF Me Bro</h1>
+          <p>Make an animated gif of your face or whatever.</p>
         </div>
+      </div>
 
-			</div>
+			<div class="row" style="text-align: center;">
+        <h2 id="message">Loading...</h2>
+        <video id="webcam" width="320" height="240" autoplay style="display: none;"></video>
+        <img src="#" style="display: none;" id="render" alt="Your GIF" />
+      </div>
+
+			<div class="row" style="text-align: center;">
+
+        <button id="create" class="btn btn-default" style="display: none;">Create GIF</button>
+
+        <h2 id="countdown"></div>
+
+      </div>
+
+      <hr/>
+
+      <div class="row" id="credits">
+        <p>A project by <a href="http://twitter.com/jmhobbs">@jmhobbs</a> // Fork me on <a href="https://github.com/jmhobbs/gifmebro">Github</a> // All glory to <a href="http://jnordberg.github.io/gif.js/">gif.js</a></p>
+      </div>
+
 		</div>
+
 		<script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0rc1/zepto.min.js"></script>		
     <script src="gifmebro.min.js"></script>
+    <script>
+      Zepto(function ($) {
+        var GMB = new GifMeBro($, document.getElementById("webcam"));
+
+        $(document).on("gifmebro:ready", function () {
+          $("#message").hide();
+          $("#webcam").show();
+          $("#create").show();
+        });
+
+        $(document).on("gifmebro:error", function (error) {
+          $("#message").text(error.data).show();
+          $("#webcam").hide();
+          $("#create").hide();
+          $("#countdown").hide();
+          $("#render").hide();
+        });
+
+        $("#create").on("click", function (e) {
+          e.preventDefault();
+          $("#countdown").show();
+          $("#create").hide();
+          setTimeout(function () { getReadyStep(3); }, 250);
+        });
+
+        function getReadyStep(step) {
+          if(step <= 0) {
+            $("#countdown").text("Go!");
+            GMB.capture();
+            return;
+          }
+          $("#countdown").text(step);
+          setTimeout(function () { getReadyStep(--step); }, 1000);
+        }
+
+        $(document).on('gifmebro:rendering', function () {
+            $('#countdown').hide();
+            $('#webcam').hide();
+            $('#message').text('Rendering...').show();
+        });
+
+        $(document).on('gifmebro:rendered', function (e) {
+          $('#render').attr('src', e.data).show();
+          $('#message').hide();
+        });
+
+        GMB.init();
+      });
+    </script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
