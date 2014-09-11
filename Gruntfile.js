@@ -23,11 +23,22 @@ module.exports = function (grunt) {
         src: 'gif.worker.js',
         dest: 'dist/'
       }
+    },
+    watch: {
+      scripts: {
+        files: ['src/gifmebro.js'],
+        tasks: ['uglify'],
+      },
+      html: {
+        files: ['src/index.html'],
+        tasks: ['copy']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', ['uglify', 'copy']);
 };
