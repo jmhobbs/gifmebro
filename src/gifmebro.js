@@ -3,10 +3,14 @@ Zepto(function ($) {
       canvas = document.getElementById('canvas'),
       ctx = canvas.getContext('2d');
 
-  navigator.webkitGetUserMedia(
+  // Browsers like whoa...
+  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+  
+  navigator.getUserMedia(
     {video: true, audio: false},
     function(stream) { 
-      camera.src = webkitURL.createObjectURL(stream);
+      camera.src = window.URL.createObjectURL(stream);
       connect();
     },
     function(err) {
