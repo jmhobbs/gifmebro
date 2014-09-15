@@ -47,48 +47,55 @@
     <script src="gifmebro.min.js"></script>
     <script>
       Zepto(function ($) {
-        var GMB = new GifMeBro($, document.getElementById("webcam"));
 
-        $(document).on("gifmebro:ready", function () {
-          $("#message").hide();
-          $("#webcam").show();
-          $("#create").show();
+        var GMB = new GifMeBro($, document.getElementById('webcam')),
+      $document = $(document),
+       $message = $('#message'),
+        $webcam = $('#webcam'),
+        $create = $('#create'),
+     $countdown = $('#countdown'),
+        $render = $('#render');
+
+        $document.on('gifmebro:ready', function () {
+          $message.hide();
+          $webcam.show();
+          $create.show();
         });
 
-        $(document).on("gifmebro:error", function (error) {
-          $("#message").text(error.data).show();
-          $("#webcam").hide();
-          $("#create").hide();
-          $("#countdown").hide();
-          $("#render").hide();
+        $document.on('gifmebro:error', function (error) {
+          $message.text(error.data).show();
+          $webcam.hide();
+          $create.hide();
+          $countdown.hide();
+          $render.hide();
         });
 
-        $("#create").on("click", function (e) {
+        $create.on('click', function (e) {
           e.preventDefault();
-          $("#countdown").show();
-          $("#create").hide();
+          $countdown.show();
+          $create.hide();
           setTimeout(function () { getReadyStep(3); }, 250);
         });
 
         function getReadyStep(step) {
           if(step <= 0) {
-            $("#countdown").text("Go!");
+            $countdown.text('Go!');
             GMB.capture();
             return;
           }
-          $("#countdown").text(step);
+          $countdown.text(step);
           setTimeout(function () { getReadyStep(--step); }, 1000);
         }
 
-        $(document).on('gifmebro:rendering', function () {
-            $('#countdown').hide();
-            $('#webcam').hide();
-            $('#message').text('Rendering...').show();
+        $document.on('gifmebro:rendering', function () {
+            $countdown.hide();
+            $webcam.hide();
+            $message.text('Rendering....');
         });
 
-        $(document).on('gifmebro:rendered', function (e) {
-          $('#render').attr('src', e.data).show();
-          $('#message').hide();
+        $document.on('gifmebro:rendered', function (e) {
+          $render.attr('src', e.data).show();
+          $message.hide();
         });
 
         GMB.init();

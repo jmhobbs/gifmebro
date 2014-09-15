@@ -6,8 +6,8 @@ var GifMeBro = function ($, _camera) {
 
   var self = this,
       camera = _camera,
+      $document = $(document),
       canvas, ctx;
-
 
   self.init = function () {
       navigator.getUserMedia(
@@ -20,10 +20,10 @@ var GifMeBro = function ($, _camera) {
           canvas.height = 240;
           ctx = canvas.getContext('2d');
 
-          $(document).trigger('gifmebro:ready', true);
+          $document.trigger('gifmebro:ready', true);
         },
         function(err) {
-          $(document).trigger('gifmebro:error', 'Could not initialize camera.');
+          $document.trigger('gifmebro:error', 'Could not initialize camera.');
         }
       );
 
@@ -45,7 +45,7 @@ var GifMeBro = function ($, _camera) {
     gif.on('finished', function(blob) {
       var reader = new window.FileReader();
       reader.onloadend = function() {
-        $(document).trigger('gifmebro:rendered', reader.result);
+        $document.trigger('gifmebro:rendered', reader.result);
       }
       reader.readAsDataURL(blob);
     });
@@ -54,11 +54,11 @@ var GifMeBro = function ($, _camera) {
   }
 
   function captureFrame (gif, frame, frames, interval) {
-    $(document).trigger('gifmebro:progress', frame / (frames - 1));
+    $document.trigger('gifmebro:progress', frame / (frames - 1));
     ctx.drawImage(camera, 0, 0, 320, 240);
     gif.addFrame(ctx, {copy: true, delay: 100});
     if(++frame >= frames) {
-      $(document).trigger('gifmebro:rendering', true);
+      $document.trigger('gifmebro:rendering', true);
       gif.render();
     }
     else {
